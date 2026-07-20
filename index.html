@@ -1,0 +1,1129 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#5b3df5">
+<meta name="description" content="TrenOvunque — parti da una città e scopri tutte le destinazioni raggiungibili in treno, con prezzi e orari.">
+<title>TrenOvunque · Motore di ricerca treni verso ovunque</title>
+<style>
+  /* ============================ DESIGN TOKENS ============================ */
+  :root {
+    --brand: #5b3df5;          /* blu-violetto ferroviario */
+    --brand-600: #4a2fe0;
+    --brand-700: #3d26bd;
+    --brand-050: #efeaff;
+    --accent: #14b8a6;         /* verde/teal per prezzi ok */
+
+    --bg: #f6f7fb;
+    --bg-hero: linear-gradient(160deg, #efeaff 0%, #f6f7fb 55%, #f6f7fb 100%);
+    --surface: #ffffff;
+    --surface-2: #f2f3f8;
+    --border: #e6e8f0;
+    --border-strong: #d6d9e6;
+
+    --text: #16182b;
+    --text-soft: #565b74;
+    --text-mute: #8a8fa8;
+
+    --ok: #0f9d76;
+    --warn: #b7791f;
+    --danger: #d64545;
+
+    --shadow-sm: 0 1px 2px rgba(20,24,43,.06), 0 1px 3px rgba(20,24,43,.04);
+    --shadow-md: 0 4px 14px rgba(20,24,43,.08), 0 2px 6px rgba(20,24,43,.05);
+    --shadow-lg: 0 18px 40px rgba(43,32,120,.16);
+
+    --radius-sm: 10px;
+    --radius: 16px;
+    --radius-lg: 22px;
+    --radius-pill: 999px;
+
+    --maxw: 1120px;
+    --gap: 16px;
+    --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji", sans-serif;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --brand: #8b74ff;
+      --brand-600: #7c62ff;
+      --brand-700: #6b50f5;
+      --brand-050: #1e1b34;
+      --accent: #2dd4bf;
+
+      --bg: #0e0f1a;
+      --bg-hero: linear-gradient(160deg, #1b1740 0%, #12131f 55%, #0e0f1a 100%);
+      --surface: #171a29;
+      --surface-2: #1e2133;
+      --border: #262a40;
+      --border-strong: #333855;
+
+      --text: #edeef6;
+      --text-soft: #b3b8d0;
+      --text-mute: #7f849e;
+
+      --ok: #34d399;
+      --warn: #e0a94a;
+      --danger: #f87171;
+
+      --shadow-sm: 0 1px 2px rgba(0,0,0,.4);
+      --shadow-md: 0 6px 18px rgba(0,0,0,.45);
+      --shadow-lg: 0 20px 46px rgba(0,0,0,.55);
+    }
+  }
+
+  /* ============================ RESET / BASE ============================ */
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  .tnum { font-variant-numeric: tabular-nums; }
+  button { font-family: inherit; }
+  a { color: var(--brand); }
+
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 20px; }
+
+  /* ============================ HERO ============================ */
+  .hero {
+    background: var(--bg-hero);
+    border-bottom: 1px solid var(--border);
+    padding: clamp(24px, 5vw, 52px) 0 clamp(28px, 4vw, 40px);
+  }
+  .brand-row { display: flex; align-items: center; gap: 12px; margin-bottom: 22px; }
+  .logo {
+    width: 44px; height: 44px; flex: none;
+    border-radius: 13px;
+    background: linear-gradient(140deg, var(--brand), var(--brand-700));
+    display: grid; place-items: center;
+    box-shadow: var(--shadow-md);
+    color: #fff;
+  }
+  .logo svg { width: 26px; height: 26px; }
+  .brand-name { font-size: 1.35rem; font-weight: 800; letter-spacing: -.02em; }
+  .brand-name b { color: var(--brand); }
+  .brand-tag { font-size: .82rem; color: var(--text-soft); margin-top: -2px; }
+
+  .hero h1 {
+    font-size: clamp(1.7rem, 4.4vw, 2.7rem);
+    line-height: 1.08;
+    letter-spacing: -.03em;
+    margin: 6px 0 6px;
+    font-weight: 850;
+  }
+  .hero h1 .grad {
+    background: linear-gradient(100deg, var(--brand), var(--accent));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .hero .sub { color: var(--text-soft); font-size: 1.02rem; margin: 0 0 22px; max-width: 46ch; }
+
+  /* ============================ SEARCH CARD ============================ */
+  .search {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    padding: 18px;
+  }
+  .fields {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr auto;
+    gap: 12px;
+    align-items: end;
+  }
+  .field { display: flex; flex-direction: column; gap: 6px; min-width: 0; position: relative; }
+  .field label {
+    font-size: .74rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .05em; color: var(--text-mute);
+  }
+  .field .with-icon { position: relative; display: flex; align-items: center; }
+  .field .with-icon svg { position: absolute; left: 12px; width: 18px; height: 18px; color: var(--text-mute); pointer-events: none; }
+  .field .with-icon input { padding-left: 38px; }
+
+  input[type="text"], input[type="date"], input[type="number"], select {
+    width: 100%;
+    padding: 12px 14px;
+    font-size: .98rem;
+    color: var(--text);
+    background: var(--surface);
+    border: 1.5px solid var(--border-strong);
+    border-radius: var(--radius-sm);
+    outline: none;
+    transition: border-color .15s, box-shadow .15s, background .15s;
+    -webkit-appearance: none; appearance: none;
+  }
+  input::placeholder { color: var(--text-mute); }
+  input:focus, select:focus {
+    border-color: var(--brand);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--brand) 18%, transparent);
+  }
+  input[type="date"] { min-height: 46px; }
+
+  .dest-chip {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--brand-050);
+    color: var(--brand-700);
+    border: 1.5px dashed color-mix(in srgb, var(--brand) 45%, transparent);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    font-weight: 700; font-size: .98rem;
+    height: 48px;
+  }
+  @media (prefers-color-scheme: dark) { .dest-chip { color: var(--brand); } }
+
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    border: none; cursor: pointer;
+    font-weight: 700; font-size: 1rem;
+    padding: 13px 22px;
+    border-radius: var(--radius-sm);
+    transition: transform .08s, box-shadow .15s, background .15s, opacity .15s;
+    white-space: nowrap;
+  }
+  .btn:active { transform: translateY(1px); }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--brand), var(--brand-700));
+    color: #fff; box-shadow: var(--shadow-md);
+    height: 48px;
+  }
+  .btn-primary:hover { box-shadow: var(--shadow-lg); }
+  .btn-primary:disabled { opacity: .6; cursor: default; box-shadow: none; }
+  .btn-ghost {
+    background: var(--surface); color: var(--brand);
+    border: 1.5px solid var(--border-strong);
+  }
+  .btn-ghost:hover { background: var(--surface-2); }
+
+  /* autocomplete dropdown */
+  .ac {
+    position: absolute; top: calc(100% + 6px); left: 0; right: 0; z-index: 40;
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-lg);
+    max-height: 320px; overflow-y: auto;
+    padding: 6px;
+    display: none;
+  }
+  .ac.open { display: block; }
+  .ac-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 9px 11px; border-radius: 10px; cursor: pointer;
+  }
+  .ac-item .flag { font-size: 1.1rem; }
+  .ac-item .city { font-weight: 650; }
+  .ac-item .st { color: var(--text-mute); font-size: .82rem; }
+  .ac-item small.pop { margin-left: auto; color: var(--brand); font-size: .7rem; font-weight: 700; }
+  .ac-item.active, .ac-item:hover { background: var(--brand-050); }
+  .ac-empty { padding: 12px; color: var(--text-mute); font-size: .9rem; text-align: center; }
+
+  /* filters row */
+  .filters {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px;
+    margin-top: 16px; padding-top: 16px; border-top: 1px dashed var(--border);
+  }
+  .filter { display: flex; align-items: center; gap: 8px; }
+  .filter label { font-size: .86rem; color: var(--text-soft); font-weight: 600; }
+  .filter input[type="number"] { width: 84px; padding: 8px 10px; }
+  .filters .sep { flex: 1 1 auto; }
+
+  /* toggle switch */
+  .switch { display: inline-flex; align-items: center; gap: 9px; cursor: pointer; user-select: none; }
+  .switch input { position: absolute; opacity: 0; width: 0; height: 0; }
+  .track {
+    width: 42px; height: 24px; border-radius: 999px;
+    background: var(--border-strong); position: relative; transition: background .18s;
+    flex: none;
+  }
+  .track::after {
+    content: ""; position: absolute; top: 2px; left: 2px;
+    width: 20px; height: 20px; border-radius: 50%;
+    background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.3); transition: transform .18s;
+  }
+  .switch input:checked + .track { background: var(--brand); }
+  .switch input:checked + .track::after { transform: translateX(18px); }
+  .switch input:focus-visible + .track { box-shadow: 0 0 0 4px color-mix(in srgb, var(--brand) 22%, transparent); }
+  .switch .lbl { font-size: .86rem; color: var(--text-soft); font-weight: 600; }
+
+  .field-err { color: var(--danger); font-size: .78rem; font-weight: 600; }
+
+  /* ============================ RESULTS TOOLBAR ============================ */
+  main { padding: 26px 0 60px; }
+  .toolbar {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 12px;
+    margin-bottom: 18px;
+  }
+  .counter { font-size: .95rem; color: var(--text-soft); }
+  .counter b { color: var(--text); font-weight: 800; }
+  .toolbar .sep { flex: 1 1 auto; }
+  .sortgroup { display: inline-flex; background: var(--surface-2); border-radius: var(--radius-pill); padding: 4px; gap: 2px; border: 1px solid var(--border); }
+  .sortgroup button {
+    border: none; background: transparent; cursor: pointer;
+    padding: 7px 14px; border-radius: var(--radius-pill);
+    font-size: .86rem; font-weight: 650; color: var(--text-soft);
+    transition: background .15s, color .15s;
+  }
+  .sortgroup button[aria-pressed="true"] { background: var(--surface); color: var(--brand); box-shadow: var(--shadow-sm); }
+
+  .progress { height: 4px; background: var(--surface-2); border-radius: 999px; overflow: hidden; margin-bottom: 18px; display: none; }
+  .progress.on { display: block; }
+  .progress > i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--brand), var(--accent)); transition: width .3s; }
+
+  /* ============================ GRID / CARDS ============================ */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--gap);
+  }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+    transition: box-shadow .18s, transform .12s, border-color .18s;
+    display: flex; flex-direction: column;
+  }
+  .card.result { cursor: pointer; }
+  .card.result:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); border-color: var(--border-strong); }
+  .card-head { padding: 16px 16px 12px; }
+  .card-top { display: flex; align-items: flex-start; gap: 8px; }
+  .card-city { font-size: 1.14rem; font-weight: 800; letter-spacing: -.01em; display: flex; align-items: center; gap: 8px; }
+  .card-city .flag { font-size: 1.05rem; }
+  .card-dist { margin-left: auto; font-size: .78rem; color: var(--text-mute); background: var(--surface-2); padding: 3px 9px; border-radius: 999px; white-space: nowrap; }
+  .card-station { color: var(--text-soft); font-size: .87rem; margin-top: 2px; }
+
+  .card-price-row { display: flex; align-items: baseline; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
+  .price-big { font-size: 1.7rem; font-weight: 850; letter-spacing: -.02em; }
+  .price-big.ok { color: var(--text); }
+  .price-label { font-size: .78rem; color: var(--text-mute); font-weight: 600; }
+  .price-na { font-size: 1.05rem; font-weight: 700; color: var(--text-mute); }
+
+  .card-meta { display: flex; gap: 8px; flex-wrap: wrap; padding: 0 16px 14px; }
+  .pill {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: .78rem; font-weight: 650; color: var(--text-soft);
+    background: var(--surface-2); padding: 5px 10px; border-radius: 999px;
+  }
+  .pill.direct { color: var(--ok); background: color-mix(in srgb, var(--ok) 12%, transparent); }
+  .pill svg { width: 13px; height: 13px; }
+
+  .card-expand { border-top: 1px solid var(--border); padding: 0 16px; max-height: 0; overflow: hidden; transition: max-height .3s ease, padding .3s ease; }
+  .card.open .card-expand { max-height: 1400px; padding: 14px 16px 16px; }
+  .card-hint { padding: 0 16px 14px; margin-top: auto; }
+  .card-hint span { font-size: .76rem; color: var(--brand); font-weight: 650; display: inline-flex; align-items: center; gap: 4px; }
+  .card.open .card-hint .chev { transform: rotate(180deg); }
+  .chev { transition: transform .25s; display: inline-block; }
+
+  .leg-title { font-size: .74rem; font-weight: 800; text-transform: uppercase; letter-spacing: .05em; color: var(--brand); margin: 8px 0 6px; display: flex; align-items: center; gap: 6px; }
+  .leg-title:first-child { margin-top: 0; }
+  .sol { display: grid; grid-template-columns: 1fr auto; gap: 4px 10px; padding: 8px 0; border-bottom: 1px solid var(--border); }
+  .sol:last-child { border-bottom: none; }
+  .sol .times { font-weight: 700; font-size: .95rem; }
+  .sol .times .arr { color: var(--text-mute); margin: 0 6px; }
+  .sol .price { font-weight: 800; text-align: right; }
+  .sol .price.na { color: var(--text-mute); font-weight: 600; font-size: .85rem; }
+  .sol .info { color: var(--text-soft); font-size: .8rem; }
+  .sol .trains { color: var(--text-mute); font-size: .78rem; text-align: right; }
+
+  /* skeleton */
+  .sk { pointer-events: none; }
+  .skbar { background: var(--surface-2); border-radius: 8px; height: 14px; position: relative; overflow: hidden; }
+  .skbar::after {
+    content:""; position:absolute; inset:0;
+    background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--text) 6%, transparent), transparent);
+    transform: translateX(-100%); animation: shimmer 1.3s infinite;
+  }
+  @keyframes shimmer { 100% { transform: translateX(100%); } }
+
+  /* states */
+  .state {
+    text-align: center; padding: 56px 20px; color: var(--text-soft);
+    background: var(--surface); border: 1px dashed var(--border-strong); border-radius: var(--radius-lg);
+  }
+  .state .ico { font-size: 2.6rem; margin-bottom: 8px; }
+  .state h3 { margin: 0 0 6px; color: var(--text); font-size: 1.2rem; }
+  .state p { margin: 0; max-width: 42ch; margin-inline: auto; }
+  .state.error { border-color: color-mix(in srgb, var(--danger) 50%, transparent); }
+
+  .more-wrap { display: flex; justify-content: center; margin-top: 26px; }
+
+  footer { color: var(--text-mute); font-size: .82rem; text-align: center; padding: 24px 0 34px; }
+  footer .disc { max-width: 60ch; margin: 4px auto 0; }
+
+  .visually-hidden { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); }
+
+  /* ============================ RESPONSIVE ============================ */
+  @media (max-width: 900px) {
+    .fields { grid-template-columns: 1fr 1fr; }
+    .field.from { grid-column: 1 / -1; }
+    .btn-primary { grid-column: 1 / -1; }
+    .grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 620px) {
+    .fields { grid-template-columns: 1fr 1fr; }
+    .field.from, .field.dest { grid-column: 1 / -1; }
+    .grid { grid-template-columns: 1fr; }
+    .filters { gap: 10px 14px; }
+    .filters .sep { display: none; flex-basis: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="brand-row">
+      <div class="logo" aria-hidden="true">
+        <!-- train icon -->
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="4" y="3" width="16" height="14" rx="3"/>
+          <path d="M4 11h16"/><path d="M9 3v8"/><path d="M15 3v8"/>
+          <path d="M8 17l-2 4"/><path d="M16 17l2 4"/>
+          <circle cx="8.5" cy="14" r="0.6" fill="currentColor"/>
+          <circle cx="15.5" cy="14" r="0.6" fill="currentColor"/>
+        </svg>
+      </div>
+      <div>
+        <div class="brand-name">Tren<b>Ovunque</b></div>
+        <div class="brand-tag">motore di ricerca treni verso ovunque</div>
+      </div>
+    </div>
+
+    <h1>Parti da una città.<br><span class="grad">Scopri dove puoi arrivare.</span></h1>
+    <p class="sub">Scegli la stazione di partenza e le date: ti mostriamo tutte le destinazioni raggiungibili in treno, con prezzi e orari di andata e ritorno.</p>
+
+    <form class="search" id="searchForm" autocomplete="off" novalidate>
+      <div class="fields">
+        <div class="field from">
+          <label for="fromInput">Città di partenza</label>
+          <div class="with-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+            <input type="text" id="fromInput" placeholder="Es. Milano Centrale" role="combobox" aria-expanded="false" aria-controls="acList" aria-autocomplete="list">
+          </div>
+          <div class="ac" id="acList" role="listbox" aria-label="Stazioni"></div>
+          <div class="field-err" id="fromErr" hidden>Seleziona una stazione di partenza dalla lista.</div>
+        </div>
+
+        <div class="field go">
+          <label for="dateGo">Andata</label>
+          <input type="date" id="dateGo">
+        </div>
+
+        <div class="field back">
+          <label for="dateBack">Ritorno</label>
+          <input type="date" id="dateBack">
+        </div>
+
+        <div class="field dest">
+          <label>Destinazione</label>
+          <span class="dest-chip" title="La destinazione è tutta l'Europa raggiungibile in treno">Ovunque 🌍</span>
+        </div>
+
+        <button type="submit" class="btn btn-primary" id="searchBtn">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+          Cerca ovunque
+        </button>
+      </div>
+
+      <div class="filters">
+        <div class="filter">
+          <label for="maxTime">Tempo max</label>
+          <input type="number" id="maxTime" min="1" max="24" step="1" placeholder="—" inputmode="numeric">
+          <span style="font-size:.86rem;color:var(--text-soft)">ore</span>
+        </div>
+        <div class="filter">
+          <label for="maxDist">Distanza max</label>
+          <input type="number" id="maxDist" min="10" step="10" placeholder="—" inputmode="numeric">
+          <span style="font-size:.86rem;color:var(--text-soft)">km</span>
+        </div>
+        <span class="sep"></span>
+        <label class="switch">
+          <input type="checkbox" id="onlyDirect">
+          <span class="track"></span>
+          <span class="lbl">Solo diretti</span>
+        </label>
+        <label class="switch">
+          <input type="checkbox" id="inclForeign" checked>
+          <span class="track"></span>
+          <span class="lbl">Includi estero</span>
+        </label>
+      </div>
+    </form>
+  </div>
+</header>
+
+<main class="wrap" id="main">
+  <div class="toolbar" id="toolbar" hidden>
+    <div class="counter" id="counter"></div>
+    <span class="sep"></span>
+    <div class="sortgroup" role="group" aria-label="Ordina risultati">
+      <button type="button" data-sort="price" aria-pressed="true">Prezzo A/R</button>
+      <button type="button" data-sort="duration" aria-pressed="false">Durata</button>
+      <button type="button" data-sort="distance" aria-pressed="false">Distanza</button>
+    </div>
+  </div>
+
+  <div class="progress" id="progress"><i id="progressBar"></i></div>
+
+  <div id="statusArea"></div>
+  <div class="grid" id="grid" aria-live="polite"></div>
+  <div class="more-wrap" id="moreWrap" hidden>
+    <button type="button" class="btn btn-ghost" id="moreBtn">Cerca altre destinazioni</button>
+  </div>
+</main>
+
+<footer class="wrap">
+  <div>TrenOvunque · demo</div>
+  <p class="disc">Prezzi e orari indicativi forniti dai vettori. Verifica sempre disponibilità e tariffe sul sito ufficiale prima di acquistare.</p>
+</footer>
+
+<script>
+"use strict";
+(function () {
+  /* =====================================================================
+     TrenOvunque — frontend vanilla. Nessuna dipendenza esterna.
+     Path API relativi con './' per funzionare anche dietro prefisso.
+  ===================================================================== */
+
+  const API_BASE = "https://vufeisvmgnnragccpgnn.supabase.co/functions/v1/trenovunque";
+  const API_STATIONS = `${API_BASE}/api/stations`;
+  const API_JOURNEYS = `${API_BASE}/api/journeys`;
+
+  const BATCH_SIZE = 36;   // candidate per batch
+  const CONCURRENCY = 5;   // coppie di fetch simultanee
+
+  // ---- Country -> emoji flag -------------------------------------------
+  const FLAGS = {
+    IT:"🇮🇹", FR:"🇫🇷", DE:"🇩🇪", ES:"🇪🇸", CH:"🇨🇭", AT:"🇦🇹", NL:"🇳🇱",
+    BE:"🇧🇪", GB:"🇬🇧", UK:"🇬🇧", PT:"🇵🇹", SI:"🇸🇮", HR:"🇭🇷", CZ:"🇨🇿",
+    PL:"🇵🇱", HU:"🇭🇺", SK:"🇸🇰", LU:"🇱🇺", DK:"🇩🇰", SE:"🇸🇪", NO:"🇳🇴",
+    GR:"🇬🇷", MC:"🇲🇨", SM:"🇸🇲", VA:"🇻🇦", IE:"🇮🇪", FI:"🇫🇮"
+  };
+  const flag = (c) => FLAGS[(c || "").toUpperCase()] || "🚩";
+
+  // ---- Formatters (it-IT) ----------------------------------------------
+  const eur = new Intl.NumberFormat("it-IT", { style: "currency", currency: "EUR", minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const fmtPrice = (n) => eur.format(n);
+  const fmtDur = (min) => {
+    if (min == null || isNaN(min)) return "—";
+    const h = Math.floor(min / 60), m = Math.round(min % 60);
+    return h > 0 ? (m > 0 ? `${h}h ${m}m` : `${h}h`) : `${m}m`;
+  };
+  const fmtTime = (iso) => {
+    if (!iso) return "--:--";
+    const d = new Date(iso);
+    if (isNaN(d)) return "--:--";
+    return d.toLocaleTimeString("it-IT", { hour: "2-digit", minute: "2-digit" });
+  };
+  const fmtChanges = (n) => n === 0 ? "diretto" : (n === 1 ? "1 cambio" : `${n} cambi`);
+
+  // ---- Haversine distance (km) -----------------------------------------
+  function haversine(lat1, lon1, lat2, lon2) {
+    const R = 6371, toRad = (d) => d * Math.PI / 180;
+    const dLat = toRad(lat2 - lat1), dLon = toRad(lon2 - lon1);
+    const a = Math.sin(dLat/2)**2 + Math.cos(toRad(lat1))*Math.cos(toRad(lat2))*Math.sin(dLon/2)**2;
+    return Math.round(2 * R * Math.asin(Math.min(1, Math.sqrt(a))));
+  }
+
+  // ---- Date helpers ----------------------------------------------------
+  const pad = (n) => String(n).padStart(2, "0");
+  const toISODate = (d) => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+  function nextFriday(base) {
+    const d = new Date(base); d.setHours(12,0,0,0);
+    const diff = (5 - d.getDay() + 7) % 7 || 7; // prossimo venerdì (mai oggi)
+    d.setDate(d.getDate() + diff);
+    return d;
+  }
+
+  // ---- DOM refs --------------------------------------------------------
+  const $ = (id) => document.getElementById(id);
+  const form = $("searchForm");
+  const fromInput = $("fromInput");
+  const acList = $("acList");
+  const fromErr = $("fromErr");
+  const dateGo = $("dateGo");
+  const dateBack = $("dateBack");
+  const maxTime = $("maxTime");
+  const maxDist = $("maxDist");
+  const onlyDirect = $("onlyDirect");
+  const inclForeign = $("inclForeign");
+  const searchBtn = $("searchBtn");
+  const grid = $("grid");
+  const toolbar = $("toolbar");
+  const counter = $("counter");
+  const statusArea = $("statusArea");
+  const progress = $("progress");
+  const progressBar = $("progressBar");
+  const moreWrap = $("moreWrap");
+  const moreBtn = $("moreBtn");
+
+  // ---- App state -------------------------------------------------------
+  let stations = [];
+  let selectedFrom = null;      // stazione selezionata (oggetto)
+  let currentSort = "price";
+  let activeController = null;  // AbortController della ricerca corrente
+  let searchToken = 0;          // invalida ricerche vecchie
+
+  let candidates = [];          // candidate ordinate per la ricerca corrente
+  let batchStart = 0;           // indice inizio prossimo batch
+  let results = new Map();      // station key -> result object
+  let checkedCount = 0;         // destinazioni controllate (nel run corrente)
+  let plannedCount = 0;         // destinazioni pianificate totali (batch processati)
+
+  const stKey = (s) => `${s.country}|${s.station}`;
+
+  /* =====================================================================
+     1) BOOT — carica stazioni
+  ===================================================================== */
+  async function boot() {
+    // date di default: venerdì prossimo -> domenica successiva
+    const fri = nextFriday(new Date());
+    const sun = new Date(fri); sun.setDate(fri.getDate() + 2);
+    dateGo.value = toISODate(fri);
+    dateBack.value = toISODate(sun);
+    dateGo.min = toISODate(new Date());
+    dateBack.min = dateGo.value;
+
+    dateGo.addEventListener("change", () => {
+      if (dateBack.value && dateBack.value < dateGo.value) dateBack.value = dateGo.value;
+      dateBack.min = dateGo.value;
+    });
+
+    try {
+      const res = await fetch(API_STATIONS, { headers: { "Accept": "application/json" } });
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      const data = await res.json();
+      if (!data || !data.ok || !Array.isArray(data.stations)) throw new Error("Risposta non valida");
+      stations = data.stations.filter(s => s && s.station && typeof s.lat === "number" && typeof s.lon === "number");
+      if (!stations.length) throw new Error("Nessuna stazione disponibile");
+    } catch (err) {
+      showState("error", "😕", "Impossibile caricare le stazioni",
+        "Non riusciamo a raggiungere il servizio in questo momento. Riprova tra poco.");
+      searchBtn.disabled = true;
+      fromInput.disabled = true;
+      fromInput.placeholder = "Servizio non disponibile";
+      return;
+    }
+  }
+
+  /* =====================================================================
+     2) AUTOCOMPLETE città di partenza
+  ===================================================================== */
+  let acItems = [];      // stazioni filtrate correnti
+  let acIndex = -1;      // indice evidenziato
+
+  function normalize(s) {
+    return (s || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+  }
+
+  function filterStations(q) {
+    const nq = normalize(q.trim());
+    let list;
+    if (!nq) {
+      // suggerisci le popolari
+      list = stations.filter(s => s.popular);
+    } else {
+      list = stations.filter(s => normalize(s.city).includes(nq) || normalize(s.station).includes(nq));
+      // ranking: match all'inizio città prima, poi popolari
+      list.sort((a, b) => {
+        const as = normalize(a.city).startsWith(nq) ? 0 : 1;
+        const bs = normalize(b.city).startsWith(nq) ? 0 : 1;
+        if (as !== bs) return as - bs;
+        if (!!b.popular !== !!a.popular) return (b.popular ? 1 : 0) - (a.popular ? 1 : 0);
+        return a.city.localeCompare(b.city, "it");
+      });
+    }
+    return list.slice(0, 30);
+  }
+
+  function renderAc(q) {
+    acItems = filterStations(q);
+    acIndex = -1;
+    if (!acItems.length) {
+      acList.innerHTML = `<div class="ac-empty">Nessuna stazione trovata</div>`;
+      openAc(true);
+      return;
+    }
+    acList.innerHTML = acItems.map((s, i) => `
+      <div class="ac-item" role="option" id="ac-${i}" data-i="${i}" aria-selected="false">
+        <span class="flag">${flag(s.country)}</span>
+        <span style="min-width:0">
+          <span class="city">${escapeHtml(s.city)}</span>
+          <span class="st"> · ${escapeHtml(s.station)}</span>
+        </span>
+        ${s.popular ? '<small class="pop">POPOLARE</small>' : ''}
+      </div>`).join("");
+    openAc(true);
+  }
+
+  function openAc(open) {
+    acList.classList.toggle("open", open);
+    fromInput.setAttribute("aria-expanded", open ? "true" : "false");
+    if (!open) acIndex = -1;
+  }
+
+  function highlight(i) {
+    const nodes = acList.querySelectorAll(".ac-item");
+    nodes.forEach(n => { n.classList.remove("active"); n.setAttribute("aria-selected", "false"); });
+    if (i >= 0 && i < nodes.length) {
+      nodes[i].classList.add("active");
+      nodes[i].setAttribute("aria-selected", "true");
+      fromInput.setAttribute("aria-activedescendant", "ac-" + i);
+      nodes[i].scrollIntoView({ block: "nearest" });
+    } else {
+      fromInput.removeAttribute("aria-activedescendant");
+    }
+  }
+
+  function chooseStation(s) {
+    selectedFrom = s;
+    fromInput.value = `${s.city} · ${s.station}`;
+    openAc(false);
+    fromErr.hidden = true;
+  }
+
+  fromInput.addEventListener("input", () => {
+    selectedFrom = null; // digitando si invalida la selezione precedente
+    renderAc(fromInput.value);
+  });
+  fromInput.addEventListener("focus", () => { if (!acList.classList.contains("open")) renderAc(fromInput.value); });
+  fromInput.addEventListener("keydown", (e) => {
+    const isOpen = acList.classList.contains("open");
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      if (!isOpen) { renderAc(fromInput.value); return; }
+      acIndex = Math.min(acIndex + 1, acItems.length - 1); highlight(acIndex);
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      acIndex = Math.max(acIndex - 1, 0); highlight(acIndex);
+    } else if (e.key === "Enter") {
+      if (isOpen && acIndex >= 0 && acItems[acIndex]) { e.preventDefault(); chooseStation(acItems[acIndex]); }
+    } else if (e.key === "Escape") {
+      openAc(false);
+    }
+  });
+  acList.addEventListener("mousedown", (e) => {
+    // mousedown per non perdere il focus prima del click
+    const item = e.target.closest(".ac-item");
+    if (!item) return;
+    e.preventDefault();
+    const i = Number(item.dataset.i);
+    if (acItems[i]) chooseStation(acItems[i]);
+  });
+  document.addEventListener("click", (e) => {
+    if (!e.target.closest(".field.from")) openAc(false);
+  });
+
+  /* =====================================================================
+     3) RICERCA — fan-out
+  ===================================================================== */
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    startSearch();
+  });
+
+  function resolveFrom() {
+    // Se non ha selezionato ma il testo combacia con una stazione, accettala.
+    if (selectedFrom) return selectedFrom;
+    const nq = normalize(fromInput.value.trim());
+    if (!nq) return null;
+    // match esatto "city · station"
+    let hit = stations.find(s => normalize(`${s.city} · ${s.station}`) === nq);
+    if (!hit) hit = stations.find(s => normalize(s.station) === nq || normalize(s.city) === nq);
+    if (hit) selectedFrom = hit;
+    return hit || null;
+  }
+
+  function buildCandidates(from) {
+    const foreign = inclForeign.checked;
+    const maxDistVal = maxDist.value ? Number(maxDist.value) : null;
+    const maxTimeVal = maxTime.value ? Number(maxTime.value) : null;
+
+    let list = stations.filter(s => s !== from && stKey(s) !== stKey(from));
+    // stessa città della partenza -> escludi (non ha senso)
+    list = list.filter(s => normalize(s.city) !== normalize(from.city));
+    if (!foreign) list = list.filter(s => (s.country || "").toUpperCase() === "IT");
+
+    // distanza
+    list.forEach(s => { s._dist = haversine(from.lat, from.lon, s.lat, s.lon); });
+    if (maxDistVal != null) list = list.filter(s => s._dist <= maxDistVal);
+    // prefiltro euristico su tempo max
+    if (maxTimeVal != null) list = list.filter(s => s._dist <= maxTimeVal * 200 + 100);
+
+    // ordina: popolari per distanza, poi le altre per distanza
+    list.sort((a, b) => {
+      const ap = a.popular ? 0 : 1, bp = b.popular ? 0 : 1;
+      if (ap !== bp) return ap - bp;
+      return a._dist - b._dist;
+    });
+    return list;
+  }
+
+  function startSearch() {
+    const from = resolveFrom();
+    if (!from) {
+      fromErr.hidden = false;
+      fromInput.focus();
+      renderAc(fromInput.value);
+      return;
+    }
+    fromErr.hidden = true;
+    openAc(false);
+
+    // annulla eventuale ricerca in corso
+    if (activeController) activeController.abort();
+    activeController = new AbortController();
+    const token = ++searchToken;
+
+    // reset stato
+    candidates = buildCandidates(from);
+    batchStart = 0;
+    results = new Map();
+    checkedCount = 0;
+    plannedCount = 0;
+    grid.innerHTML = "";
+    statusArea.innerHTML = "";
+    toolbar.hidden = false;
+    moreWrap.hidden = true;
+
+    if (!candidates.length) {
+      toolbar.hidden = true;
+      showState("empty", "🧭", "Nessuna destinazione compatibile",
+        "Prova ad ampliare i filtri di distanza o tempo, oppure attiva “Includi estero”.");
+      return;
+    }
+
+    runBatch(from, token);
+  }
+
+  async function runBatch(from, token) {
+    const slice = candidates.slice(batchStart, batchStart + BATCH_SIZE);
+    batchStart += slice.length;
+    plannedCount += slice.length;
+
+    // skeletons per il batch
+    for (const s of slice) {
+      const key = stKey(s);
+      const rec = { station: s, key, status: "loading", node: null };
+      results.set(key, rec);
+      const node = buildSkeleton(s);
+      rec.node = node;
+      grid.appendChild(node);
+    }
+
+    updateCounter();
+    progress.classList.add("on");
+    moreBtn.disabled = true;
+    searchBtn.disabled = true;
+    searchBtn.textContent = "Ricerca…";
+
+    const dGo = dateGo.value, dBack = dateBack.value;
+    const opts = {
+      onlyDirect: onlyDirect.checked,
+      maxTimeMin: maxTime.value ? Number(maxTime.value) * 60 : null
+    };
+
+    // pool di concorrenza
+    let idx = 0;
+    const worker = async () => {
+      while (idx < slice.length) {
+        const s = slice[idx++];
+        if (token !== searchToken) return; // annullata
+        await processCandidate(from, s, dGo, dBack, opts, token);
+        checkedCount++;
+        if (token === searchToken) {
+          updateCounter();
+          updateProgress(slice.length);
+        }
+      }
+    };
+    const workers = Array.from({ length: Math.min(CONCURRENCY, slice.length) }, worker);
+    await Promise.all(workers);
+
+    if (token !== searchToken) return; // una nuova ricerca ha preso il controllo
+
+    // finalize batch
+    progress.classList.remove("on");
+    progressBar.style.width = "0%";
+    searchBtn.disabled = false;
+    resetSearchBtnLabel();
+
+    // altre destinazioni disponibili?
+    if (batchStart < candidates.length) {
+      moreWrap.hidden = false;
+      moreBtn.disabled = false;
+    } else {
+      moreWrap.hidden = true;
+    }
+
+    // stato vuoto se nessun risultato in assoluto
+    if (![...results.values()].some(r => r.status === "ok")) {
+      showState("empty", "🚉", "Nessuna destinazione trovata",
+        "Con questi filtri non abbiamo trovato tratte con andata e ritorno. Prova a cambiare date o ad allentare i filtri.");
+    } else {
+      statusArea.innerHTML = "";
+    }
+  }
+
+  function updateProgress(sliceLen) {
+    const doneInBatch = checkedCount - (plannedCount - sliceLen);
+    const pct = Math.max(0, Math.min(100, Math.round(doneInBatch / sliceLen * 100)));
+    progressBar.style.width = pct + "%";
+  }
+
+  async function processCandidate(from, to, dGo, dBack, opts, token) {
+    const key = stKey(to);
+    const rec = results.get(key);
+    try {
+      const [goSols, backSols] = await Promise.all([
+        fetchJourneys(from, to, dGo, opts, token),
+        fetchJourneys(to, from, dBack, opts, token)
+      ]);
+      if (token !== searchToken) return;
+
+      if (!goSols.length || !backSols.length) {
+        markInvalid(rec);
+        return;
+      }
+      const bestGo = pickBest(goSols);
+      const bestBack = pickBest(backSols);
+      const priceRT = (bestGo.priceEur != null && bestBack.priceEur != null)
+        ? +(bestGo.priceEur + bestBack.priceEur).toFixed(2) : null;
+
+      rec.status = "ok";
+      rec.data = {
+        dist: to._dist,
+        go: goSols, back: backSols,
+        bestGo, bestBack,
+        priceRT,
+        // per ordinamento durata: somma delle durate best
+        durSum: (bestGo.durationMin || 0) + (bestBack.durationMin || 0),
+        goOnlyPrice: bestGo.priceEur != null ? bestGo.priceEur : null
+      };
+      const card = buildCard(rec);
+      rec.node.replaceWith(card);
+      rec.node = card;
+      reorder();
+    } catch (err) {
+      // errore o abort: se abort non tocchiamo nulla, altrimenti scarta destinazione
+      if (token !== searchToken) return;
+      markInvalid(rec);
+    }
+  }
+
+  function markInvalid(rec) {
+    rec.status = "skip";
+    if (rec.node && rec.node.parentNode) rec.node.remove();
+    results.delete(rec.key);
+  }
+
+  async function fetchJourneys(from, to, date, opts, token) {
+    const url = `${API_JOURNEYS}?from=${encodeURIComponent(from.station)}&to=${encodeURIComponent(to.station)}`
+      + `&fromCountry=${encodeURIComponent(from.country || "")}&toCountry=${encodeURIComponent(to.country || "")}`
+      + `&date=${encodeURIComponent(date)}`;
+    let res;
+    try {
+      res = await fetch(url, { signal: activeController.signal, headers: { "Accept": "application/json" } });
+    } catch (e) {
+      if (e && e.name === "AbortError") throw e;
+      return []; // errore di rete: salta questa tratta
+    }
+    if (!res.ok) return [];       // 4xx/5xx: salta
+    let data;
+    try { data = await res.json(); } catch (e) { return []; }
+    if (!data || data.ok !== true || !Array.isArray(data.solutions)) return [];
+
+    let sols = data.solutions.filter(s => s && s.departure && s.arrival);
+    if (opts.onlyDirect) sols = sols.filter(s => (s.changes || 0) === 0);
+    if (opts.maxTimeMin != null) sols = sols.filter(s => s.durationMin != null && s.durationMin <= opts.maxTimeMin);
+    return sols;
+  }
+
+  // best = prezzo minimo; se tutti null -> durata minima
+  function pickBest(sols) {
+    const withPrice = sols.filter(s => s.priceEur != null);
+    if (withPrice.length) {
+      return withPrice.reduce((a, b) => (b.priceEur < a.priceEur ? b : a));
+    }
+    return sols.reduce((a, b) => ((b.durationMin ?? Infinity) < (a.durationMin ?? Infinity) ? b : a));
+  }
+
+  /* =====================================================================
+     4) RENDER card / skeleton
+  ===================================================================== */
+  function buildSkeleton(s) {
+    const el = document.createElement("div");
+    el.className = "card sk";
+    el.innerHTML = `
+      <div class="card-head">
+        <div class="card-top">
+          <div class="card-city"><span class="flag">${flag(s.country)}</span>${escapeHtml(s.city)}</div>
+          <span class="card-dist">${s._dist} km</span>
+        </div>
+        <div class="card-station">${escapeHtml(s.station)}</div>
+        <div class="card-price-row" style="margin-top:16px"><div class="skbar" style="width:60%;height:26px"></div></div>
+      </div>
+      <div class="card-meta"><div class="skbar" style="width:70px;height:24px;border-radius:999px"></div><div class="skbar" style="width:60px;height:24px;border-radius:999px"></div></div>`;
+    return el;
+  }
+
+  function priceHtml(d) {
+    if (d.priceRT != null) {
+      return `<span class="price-big ok tnum">${fmtPrice(d.priceRT)}</span><span class="price-label">andata e ritorno</span>`;
+    }
+    if (d.goOnlyPrice != null) {
+      return `<span class="price-big ok tnum">da ${fmtPrice(d.goOnlyPrice)}</span><span class="price-label">solo andata</span>`;
+    }
+    return `<span class="price-na">prezzo n/d</span>`;
+  }
+
+  function solRowHtml(s) {
+    const priceCell = s.priceEur != null
+      ? `<span class="price tnum">${fmtPrice(s.priceEur)}</span>`
+      : `<span class="price na">n/d</span>`;
+    const trains = Array.isArray(s.trains) && s.trains.length ? escapeHtml(s.trains.join(", ")) : "";
+    return `
+      <div class="sol">
+        <span class="times tnum">${fmtTime(s.departure)}<span class="arr">→</span>${fmtTime(s.arrival)}</span>
+        ${priceCell}
+        <span class="info">${fmtDur(s.durationMin)} · ${fmtChanges(s.changes || 0)}</span>
+        <span class="trains">${trains}</span>
+      </div>`;
+  }
+
+  function buildCard(rec) {
+    const s = rec.station, d = rec.data;
+    const el = document.createElement("div");
+    el.className = "card result";
+    el.setAttribute("role", "button");
+    el.setAttribute("tabindex", "0");
+    el.setAttribute("aria-expanded", "false");
+
+    const directPill = d.bestGo.changes === 0
+      ? `<span class="pill direct"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>diretto</span>`
+      : `<span class="pill">${fmtChanges(d.bestGo.changes || 0)}</span>`;
+
+    const goRows = d.go.slice(0, 5).map(solRowHtml).join("");
+    const backRows = d.back.slice(0, 5).map(solRowHtml).join("");
+
+    el.innerHTML = `
+      <div class="card-head">
+        <div class="card-top">
+          <div class="card-city"><span class="flag">${flag(s.country)}</span>${escapeHtml(s.city)}</div>
+          <span class="card-dist tnum">${d.dist} km</span>
+        </div>
+        <div class="card-station">${escapeHtml(s.station)}</div>
+        <div class="card-price-row">${priceHtml(d)}</div>
+      </div>
+      <div class="card-meta">
+        <span class="pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>${fmtDur(d.bestGo.durationMin)}</span>
+        ${directPill}
+      </div>
+      <div class="card-hint"><span>Vedi orari <span class="chev">▾</span></span></div>
+      <div class="card-expand">
+        <div class="leg-title">🚆 Andata · ${dateGo.value ? shortDate(dateGo.value) : ""}</div>
+        ${goRows || '<div class="sol"><span class="info">Nessun orario</span></div>'}
+        <div class="leg-title">🔁 Ritorno · ${dateBack.value ? shortDate(dateBack.value) : ""}</div>
+        ${backRows || '<div class="sol"><span class="info">Nessun orario</span></div>'}
+      </div>`;
+
+    const toggle = () => {
+      const open = el.classList.toggle("open");
+      el.setAttribute("aria-expanded", open ? "true" : "false");
+    };
+    el.addEventListener("click", toggle);
+    el.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(); }
+    });
+    return el;
+  }
+
+  function shortDate(iso) {
+    const d = new Date(iso + "T12:00:00");
+    if (isNaN(d)) return "";
+    return d.toLocaleDateString("it-IT", { weekday: "short", day: "numeric", month: "short" });
+  }
+
+  /* =====================================================================
+     5) ORDINAMENTO live
+  ===================================================================== */
+  function sortValue(rec, mode) {
+    const d = rec.data;
+    if (mode === "distance") return d.dist;
+    if (mode === "duration") return d.durSum || Infinity;
+    // price: A/R se c'è, altrimenti solo andata, altrimenti in fondo
+    if (d.priceRT != null) return d.priceRT;
+    if (d.goOnlyPrice != null) return d.goOnlyPrice + 100000; // dopo quelli con A/R
+    return Infinity; // senza prezzo in fondo
+  }
+
+  function reorder() {
+    const ok = [...results.values()].filter(r => r.status === "ok" && r.node);
+    ok.sort((a, b) => {
+      const av = sortValue(a, currentSort), bv = sortValue(b, currentSort);
+      if (av !== bv) return av - bv;
+      return a.data.dist - b.data.dist; // tie-break stabile per distanza
+    });
+    // riccolloca le sole card "ok"
+    for (const r of ok) grid.appendChild(r.node);
+    // gli skeleton (loading) restano in coda
+    const loading = [...results.values()].filter(r => r.status === "loading" && r.node);
+    for (const r of loading) grid.appendChild(r.node);
+  }
+
+  document.querySelectorAll(".sortgroup button").forEach(btn => {
+    btn.addEventListener("click", () => {
+      currentSort = btn.dataset.sort;
+      document.querySelectorAll(".sortgroup button").forEach(b =>
+        b.setAttribute("aria-pressed", b === btn ? "true" : "false"));
+      reorder();
+    });
+  });
+
+  moreBtn.addEventListener("click", () => {
+    const from = selectedFrom;
+    if (!from) return;
+    statusArea.innerHTML = "";
+    runBatch(from, searchToken);
+  });
+
+  /* =====================================================================
+     6) UI helpers
+  ===================================================================== */
+  function updateCounter() {
+    const found = [...results.values()].filter(r => r.status === "ok").length;
+    counter.innerHTML = `<b>${found}</b> ${found === 1 ? "destinazione trovata" : "destinazioni trovate"} · <span class="tnum">${checkedCount}</span> / ${plannedCount} controllate`;
+  }
+
+  function showState(kind, ico, title, msg) {
+    statusArea.innerHTML = `
+      <div class="state ${kind === "error" ? "error" : ""}">
+        <div class="ico">${ico}</div>
+        <h3>${escapeHtml(title)}</h3>
+        <p>${escapeHtml(msg)}</p>
+      </div>`;
+  }
+
+  function resetSearchBtnLabel() {
+    searchBtn.innerHTML = `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg> Cerca ovunque`;
+  }
+
+  function escapeHtml(str) {
+    return String(str).replace(/[&<>"']/g, (c) => (
+      { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]
+    ));
+  }
+
+  // ---- go ----
+  boot();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,1322 @@
+[
+ {
+  "city": "Roma",
+  "station": "Roma Termini",
+  "country": "IT",
+  "lat": 41.9005,
+  "lon": 12.50203,
+  "popular": true
+ },
+ {
+  "city": "Milano",
+  "station": "Milano Centrale",
+  "country": "IT",
+  "lat": 45.48701,
+  "lon": 9.20329,
+  "popular": true
+ },
+ {
+  "city": "Torino",
+  "station": "Torino Porta Nuova",
+  "country": "IT",
+  "lat": 45.06097,
+  "lon": 7.67747,
+  "popular": true
+ },
+ {
+  "city": "Venezia",
+  "station": "Venezia Santa Lucia",
+  "country": "IT",
+  "lat": 45.44139,
+  "lon": 12.32046,
+  "popular": true
+ },
+ {
+  "city": "Firenze",
+  "station": "Firenze Santa Maria Novella",
+  "country": "IT",
+  "lat": 43.77679,
+  "lon": 11.24793,
+  "popular": true
+ },
+ {
+  "city": "Bologna",
+  "station": "Bologna Centrale",
+  "country": "IT",
+  "lat": 44.50655,
+  "lon": 11.3412,
+  "popular": true
+ },
+ {
+  "city": "Napoli",
+  "station": "Napoli Centrale",
+  "country": "IT",
+  "lat": 40.85223,
+  "lon": 14.27291,
+  "popular": true
+ },
+ {
+  "city": "Bari",
+  "station": "Bari Centrale",
+  "country": "IT",
+  "lat": 41.11783,
+  "lon": 16.87027,
+  "popular": true
+ },
+ {
+  "city": "Palermo",
+  "station": "Palermo Centrale",
+  "country": "IT",
+  "lat": 38.10886,
+  "lon": 13.36752,
+  "popular": true
+ },
+ {
+  "city": "Catania",
+  "station": "Catania Centrale",
+  "country": "IT",
+  "lat": 37.50494,
+  "lon": 15.09943,
+  "popular": true
+ },
+ {
+  "city": "Verona",
+  "station": "Verona Porta Nuova",
+  "country": "IT",
+  "lat": 45.42871,
+  "lon": 10.98267,
+  "popular": true
+ },
+ {
+  "city": "Genova",
+  "station": "Genova Piazza Principe",
+  "country": "IT",
+  "lat": 44.41766,
+  "lon": 8.91959,
+  "popular": true
+ },
+ {
+  "city": "Pisa",
+  "station": "Pisa Centrale",
+  "country": "IT",
+  "lat": 43.70794,
+  "lon": 10.39819,
+  "popular": true
+ },
+ {
+  "city": "Lecce",
+  "station": "Lecce",
+  "country": "IT",
+  "lat": 40.34568,
+  "lon": 18.16589,
+  "popular": true
+ },
+ {
+  "city": "Reggio Calabria",
+  "station": "Reggio Calabria Centrale",
+  "country": "IT",
+  "lat": 38.10209,
+  "lon": 15.63585,
+  "popular": true
+ },
+ {
+  "city": "Trieste",
+  "station": "Trieste Centrale",
+  "country": "IT",
+  "lat": 45.65846,
+  "lon": 13.77115,
+  "popular": true
+ },
+ {
+  "city": "Padova",
+  "station": "Padova",
+  "country": "IT",
+  "lat": 45.41782,
+  "lon": 11.88062,
+  "popular": true
+ },
+ {
+  "city": "La Spezia",
+  "station": "La Spezia Centrale",
+  "country": "IT",
+  "lat": 44.11141,
+  "lon": 9.81391,
+  "popular": true
+ },
+ {
+  "city": "Salerno",
+  "station": "Salerno",
+  "country": "IT",
+  "lat": 40.68288,
+  "lon": 14.7759,
+  "popular": true
+ },
+ {
+  "city": "Foggia",
+  "station": "Foggia",
+  "country": "IT",
+  "lat": 41.46559,
+  "lon": 15.55557,
+  "popular": false
+ },
+ {
+  "city": "Pescara",
+  "station": "Pescara Centrale",
+  "country": "IT",
+  "lat": 42.4574,
+  "lon": 14.21166,
+  "popular": false
+ },
+ {
+  "city": "Ancona",
+  "station": "Ancona Centrale",
+  "country": "IT",
+  "lat": 43.6076,
+  "lon": 13.49779,
+  "popular": false
+ },
+ {
+  "city": "Rimini",
+  "station": "Rimini",
+  "country": "IT",
+  "lat": 44.06424,
+  "lon": 12.57402,
+  "popular": false
+ },
+ {
+  "city": "Bolzano",
+  "station": "Bolzano",
+  "country": "IT",
+  "lat": 46.49632,
+  "lon": 11.35857,
+  "popular": true
+ },
+ {
+  "city": "Trento",
+  "station": "Trento",
+  "country": "IT",
+  "lat": 46.07229,
+  "lon": 11.1189,
+  "popular": true
+ },
+ {
+  "city": "Brescia",
+  "station": "Brescia",
+  "country": "IT",
+  "lat": 45.53232,
+  "lon": 10.21284,
+  "popular": false
+ },
+ {
+  "city": "Bergamo",
+  "station": "Bergamo",
+  "country": "IT",
+  "lat": 45.6904,
+  "lon": 9.67507,
+  "popular": false
+ },
+ {
+  "city": "Como",
+  "station": "Como San Giovanni",
+  "country": "IT",
+  "lat": 45.80897,
+  "lon": 9.07272,
+  "popular": false
+ },
+ {
+  "city": "Varese",
+  "station": "Varese",
+  "country": "IT",
+  "lat": 45.81846,
+  "lon": 8.8333,
+  "popular": false
+ },
+ {
+  "city": "Novara",
+  "station": "Novara",
+  "country": "IT",
+  "lat": 45.45118,
+  "lon": 8.62501,
+  "popular": false
+ },
+ {
+  "city": "Alessandria",
+  "station": "Alessandria",
+  "country": "IT",
+  "lat": 44.90859,
+  "lon": 8.60706,
+  "popular": false
+ },
+ {
+  "city": "Parma",
+  "station": "Parma",
+  "country": "IT",
+  "lat": 44.81021,
+  "lon": 10.32837,
+  "popular": false
+ },
+ {
+  "city": "Modena",
+  "station": "Modena",
+  "country": "IT",
+  "lat": 44.65445,
+  "lon": 10.93038,
+  "popular": false
+ },
+ {
+  "city": "Reggio Emilia",
+  "station": "Reggio Emilia AV Mediopadana",
+  "country": "IT",
+  "lat": 44.7249,
+  "lon": 10.65304,
+  "popular": false
+ },
+ {
+  "city": "Ferrara",
+  "station": "Ferrara",
+  "country": "IT",
+  "lat": 44.84287,
+  "lon": 11.60415,
+  "popular": false
+ },
+ {
+  "city": "Ravenna",
+  "station": "Ravenna",
+  "country": "IT",
+  "lat": 44.41906,
+  "lon": 12.20841,
+  "popular": false
+ },
+ {
+  "city": "Perugia",
+  "station": "Perugia",
+  "country": "IT",
+  "lat": 43.1037,
+  "lon": 12.37558,
+  "popular": false
+ },
+ {
+  "city": "Terni",
+  "station": "Terni",
+  "country": "IT",
+  "lat": 42.57061,
+  "lon": 12.65109,
+  "popular": false
+ },
+ {
+  "city": "Caserta",
+  "station": "Caserta",
+  "country": "IT",
+  "lat": 41.06881,
+  "lon": 14.32827,
+  "popular": false
+ },
+ {
+  "city": "Benevento",
+  "station": "Benevento",
+  "country": "IT",
+  "lat": 41.14089,
+  "lon": 14.77,
+  "popular": false
+ },
+ {
+  "city": "Taranto",
+  "station": "Taranto",
+  "country": "IT",
+  "lat": 40.4834,
+  "lon": 17.22441,
+  "popular": false
+ },
+ {
+  "city": "Brindisi",
+  "station": "Brindisi",
+  "country": "IT",
+  "lat": 40.63434,
+  "lon": 17.93896,
+  "popular": false
+ },
+ {
+  "city": "Cosenza",
+  "station": "Cosenza",
+  "country": "IT",
+  "lat": 39.31581,
+  "lon": 16.26096,
+  "popular": false
+ },
+ {
+  "city": "Lamezia Terme",
+  "station": "Lamezia Terme Centrale",
+  "country": "IT",
+  "lat": 38.92093,
+  "lon": 16.25553,
+  "popular": false
+ },
+ {
+  "city": "Messina",
+  "station": "Messina Centrale",
+  "country": "IT",
+  "lat": 38.18326,
+  "lon": 15.56129,
+  "popular": false
+ },
+ {
+  "city": "Siracusa",
+  "station": "Siracusa",
+  "country": "IT",
+  "lat": 37.06747,
+  "lon": 15.2809,
+  "popular": false
+ },
+ {
+  "city": "Cagliari",
+  "station": "Cagliari",
+  "country": "IT",
+  "lat": 39.21608,
+  "lon": 9.10799,
+  "popular": false
+ },
+ {
+  "city": "Sassari",
+  "station": "Sassari",
+  "country": "IT",
+  "lat": 40.72963,
+  "lon": 8.55428,
+  "popular": false
+ },
+ {
+  "city": "Udine",
+  "station": "Udine",
+  "country": "IT",
+  "lat": 46.05551,
+  "lon": 13.24201,
+  "popular": false
+ },
+ {
+  "city": "Treviso",
+  "station": "Treviso",
+  "country": "IT",
+  "lat": 45.65952,
+  "lon": 12.24614,
+  "popular": false
+ },
+ {
+  "city": "Vicenza",
+  "station": "Vicenza",
+  "country": "IT",
+  "lat": 45.5411,
+  "lon": 11.54078,
+  "popular": false
+ },
+ {
+  "city": "Rovigo",
+  "station": "Rovigo",
+  "country": "IT",
+  "lat": 45.07694,
+  "lon": 11.7809,
+  "popular": false
+ },
+ {
+  "city": "Mantova",
+  "station": "Mantova",
+  "country": "IT",
+  "lat": 45.15874,
+  "lon": 10.78317,
+  "popular": false
+ },
+ {
+  "city": "Cremona",
+  "station": "Cremona",
+  "country": "IT",
+  "lat": 45.14219,
+  "lon": 10.01776,
+  "popular": false
+ },
+ {
+  "city": "Piacenza",
+  "station": "Piacenza",
+  "country": "IT",
+  "lat": 45.05224,
+  "lon": 9.70634,
+  "popular": false
+ },
+ {
+  "city": "Pavia",
+  "station": "Pavia",
+  "country": "IT",
+  "lat": 45.18885,
+  "lon": 9.14469,
+  "popular": false
+ },
+ {
+  "city": "Asti",
+  "station": "Asti",
+  "country": "IT",
+  "lat": 44.89486,
+  "lon": 8.20767,
+  "popular": false
+ },
+ {
+  "city": "Cuneo",
+  "station": "Cuneo",
+  "country": "IT",
+  "lat": 44.38791,
+  "lon": 7.53625,
+  "popular": false
+ },
+ {
+  "city": "Savona",
+  "station": "Savona",
+  "country": "IT",
+  "lat": 44.30689,
+  "lon": 8.47026,
+  "popular": false
+ },
+ {
+  "city": "Imperia",
+  "station": "Imperia Oneglia",
+  "country": "IT",
+  "lat": 43.89694,
+  "lon": 8.03138,
+  "popular": false
+ },
+ {
+  "city": "Ventimiglia",
+  "station": "Ventimiglia",
+  "country": "IT",
+  "lat": 43.79257,
+  "lon": 7.61023,
+  "popular": false
+ },
+ {
+  "city": "Livorno",
+  "station": "Livorno Centrale",
+  "country": "IT",
+  "lat": 43.55406,
+  "lon": 10.33659,
+  "popular": false
+ },
+ {
+  "city": "Grosseto",
+  "station": "Grosseto",
+  "country": "IT",
+  "lat": 42.76727,
+  "lon": 11.10651,
+  "popular": false
+ },
+ {
+  "city": "Siena",
+  "station": "Siena",
+  "country": "IT",
+  "lat": 43.3318,
+  "lon": 11.32264,
+  "popular": false
+ },
+ {
+  "city": "Arezzo",
+  "station": "Arezzo",
+  "country": "IT",
+  "lat": 43.46167,
+  "lon": 11.8742,
+  "popular": false
+ },
+ {
+  "city": "Viterbo",
+  "station": "Viterbo",
+  "country": "IT",
+  "lat": 42.4119,
+  "lon": 12.11049,
+  "popular": false
+ },
+ {
+  "city": "Latina",
+  "station": "Latina",
+  "country": "IT",
+  "lat": 41.53816,
+  "lon": 12.9459,
+  "popular": false
+ },
+ {
+  "city": "Frosinone",
+  "station": "Frosinone",
+  "country": "IT",
+  "lat": 41.62502,
+  "lon": 13.32873,
+  "popular": false
+ },
+ {
+  "city": "Potenza",
+  "station": "Potenza Città",
+  "country": "IT",
+  "lat": 40.62972,
+  "lon": 15.80657,
+  "popular": false
+ },
+ {
+  "city": "Civitavecchia",
+  "station": "Civitavecchia",
+  "country": "IT",
+  "lat": 42.08823,
+  "lon": 11.79816,
+  "popular": false
+ },
+ {
+  "city": "Isernia",
+  "station": "Isernia",
+  "country": "IT",
+  "lat": 41.59626,
+  "lon": 14.23542,
+  "popular": false
+ },
+ {
+  "city": "Teramo",
+  "station": "Teramo",
+  "country": "IT",
+  "lat": 42.6601,
+  "lon": 13.71589,
+  "popular": false
+ },
+ {
+  "city": "Chieti",
+  "station": "Chieti",
+  "country": "IT",
+  "lat": 42.35689,
+  "lon": 14.13859,
+  "popular": false
+ },
+ {
+  "city": "Crotone",
+  "station": "Crotone",
+  "country": "IT",
+  "lat": 39.08447,
+  "lon": 17.1085,
+  "popular": false
+ },
+ {
+  "city": "Catanzaro",
+  "station": "Catanzaro Lido",
+  "country": "IT",
+  "lat": 38.82187,
+  "lon": 16.61274,
+  "popular": false
+ },
+ {
+  "city": "Vibo Valentia",
+  "station": "Vibo Valentia Pizzo",
+  "country": "IT",
+  "lat": 38.71447,
+  "lon": 16.14019,
+  "popular": false
+ },
+ {
+  "city": "Paola",
+  "station": "Paola",
+  "country": "IT",
+  "lat": 39.35718,
+  "lon": 16.0331,
+  "popular": false
+ },
+ {
+  "city": "Rossano",
+  "station": "Rossano",
+  "country": "IT",
+  "lat": 39.60282,
+  "lon": 16.64087,
+  "popular": false
+ },
+ {
+  "city": "Gioiosa Ionica",
+  "station": "Gioiosa Ionica",
+  "country": "IT",
+  "lat": 38.30022,
+  "lon": 16.33073,
+  "popular": false
+ },
+ {
+  "city": "Melito",
+  "station": "Melito di Porto Salvo",
+  "country": "IT",
+  "lat": 37.91701,
+  "lon": 15.78092,
+  "popular": false
+ },
+ {
+  "city": "Palmi",
+  "station": "Palmi",
+  "country": "IT",
+  "lat": 38.36468,
+  "lon": 15.84454,
+  "popular": false
+ },
+ {
+  "city": "Gioia Tauro",
+  "station": "Gioia Tauro",
+  "country": "IT",
+  "lat": 38.42342,
+  "lon": 15.89694,
+  "popular": false
+ },
+ {
+  "city": "Alcamo",
+  "station": "Alcamo Diramazione",
+  "country": "IT",
+  "lat": 37.97868,
+  "lon": 12.91592,
+  "popular": false
+ },
+ {
+  "city": "Castelvetrano",
+  "station": "Castelvetrano",
+  "country": "IT",
+  "lat": 37.68479,
+  "lon": 12.79955,
+  "popular": false
+ },
+ {
+  "city": "Gela",
+  "station": "Gela",
+  "country": "IT",
+  "lat": 37.07213,
+  "lon": 14.25947,
+  "popular": false
+ },
+ {
+  "city": "Vittoria",
+  "station": "Vittoria",
+  "country": "IT",
+  "lat": 36.95848,
+  "lon": 14.52499,
+  "popular": false
+ },
+ {
+  "city": "Modica",
+  "station": "Modica",
+  "country": "IT",
+  "lat": 36.85189,
+  "lon": 14.75426,
+  "popular": false
+ },
+ {
+  "city": "Ragusa",
+  "station": "Ragusa",
+  "country": "IT",
+  "lat": 36.91828,
+  "lon": 14.72569,
+  "popular": false
+ },
+ {
+  "city": "Comiso",
+  "station": "Comiso",
+  "country": "IT",
+  "lat": 36.94628,
+  "lon": 14.60037,
+  "popular": false
+ },
+ {
+  "city": "Noto",
+  "station": "Noto",
+  "country": "IT",
+  "lat": 36.88122,
+  "lon": 15.07453,
+  "popular": false
+ },
+ {
+  "city": "Avola",
+  "station": "Avola",
+  "country": "IT",
+  "lat": 36.90614,
+  "lon": 15.12574,
+  "popular": false
+ },
+ {
+  "city": "Marsala",
+  "station": "Marsala",
+  "country": "IT",
+  "lat": 37.79374,
+  "lon": 12.44281,
+  "popular": false
+ },
+ {
+  "city": "Agrigento",
+  "station": "Agrigento Centrale",
+  "country": "IT",
+  "lat": 37.30865,
+  "lon": 13.58441,
+  "popular": false
+ },
+ {
+  "city": "Termini Imerese",
+  "station": "Termini Imerese",
+  "country": "IT",
+  "lat": 37.97969,
+  "lon": 13.70363,
+  "popular": false
+ },
+ {
+  "city": "Bagheria",
+  "station": "Bagheria",
+  "country": "IT",
+  "lat": 38.08953,
+  "lon": 13.50722,
+  "popular": false
+ },
+ {
+  "city": "Nuoro",
+  "station": "Nuoro",
+  "country": "IT",
+  "lat": 40.32036,
+  "lon": 9.32282,
+  "popular": false
+ },
+ {
+  "city": "Oristano",
+  "station": "Oristano",
+  "country": "IT",
+  "lat": 39.90204,
+  "lon": 8.60398,
+  "popular": false
+ },
+ {
+  "city": "Porto Torres",
+  "station": "Porto Torres",
+  "country": "IT",
+  "lat": 40.83305,
+  "lon": 8.39642,
+  "popular": false
+ },
+ {
+  "city": "Olbia",
+  "station": "Olbia",
+  "country": "IT",
+  "lat": 40.9246,
+  "lon": 9.4983,
+  "popular": false
+ },
+ {
+  "city": "Zürich",
+  "station": "Zürich HB",
+  "country": "CH",
+  "lat": 47.37814,
+  "lon": 8.53746,
+  "popular": true
+ },
+ {
+  "city": "Ginevra",
+  "station": "Genève",
+  "country": "CH",
+  "lat": 46.21022,
+  "lon": 6.14244,
+  "popular": true
+ },
+ {
+  "city": "Losanna",
+  "station": "Lausanne",
+  "country": "CH",
+  "lat": 46.5208,
+  "lon": 6.63034,
+  "popular": true
+ },
+ {
+  "city": "Berna",
+  "station": "Bern",
+  "country": "CH",
+  "lat": 46.94883,
+  "lon": 7.43913,
+  "popular": true
+ },
+ {
+  "city": "Basilea",
+  "station": "Basel SBB",
+  "country": "CH",
+  "lat": 47.54741,
+  "lon": 7.58956,
+  "popular": true
+ },
+ {
+  "city": "Lugano",
+  "station": "Lugano",
+  "country": "CH",
+  "lat": 46.00449,
+  "lon": 8.9476,
+  "popular": false
+ },
+ {
+  "city": "Lucerna",
+  "station": "Luzern",
+  "country": "CH",
+  "lat": 47.05018,
+  "lon": 8.31018,
+  "popular": false
+ },
+ {
+  "city": "San Gallo",
+  "station": "St. Gallen",
+  "country": "CH",
+  "lat": 47.42473,
+  "lon": 9.37962,
+  "popular": false
+ },
+ {
+  "city": "Parigi",
+  "station": "Paris Gare de Lyon",
+  "country": "FR",
+  "lat": 48.84484,
+  "lon": 2.37407,
+  "popular": true
+ },
+ {
+  "city": "Lione",
+  "station": "Lyon Part-Dieu",
+  "country": "FR",
+  "lat": 45.76056,
+  "lon": 4.85999,
+  "popular": true
+ },
+ {
+  "city": "Marsiglia",
+  "station": "Marseille Saint-Charles",
+  "country": "FR",
+  "lat": 43.30381,
+  "lon": 5.38195,
+  "popular": true
+ },
+ {
+  "city": "Nizza",
+  "station": "Nice Ville",
+  "country": "FR",
+  "lat": 43.70482,
+  "lon": 7.26177,
+  "popular": true
+ },
+ {
+  "city": "Tolone",
+  "station": "Toulon",
+  "country": "FR",
+  "lat": 43.12841,
+  "lon": 5.9296,
+  "popular": false
+ },
+ {
+  "city": "Cannes",
+  "station": "Cannes",
+  "country": "FR",
+  "lat": 43.55369,
+  "lon": 7.01956,
+  "popular": false
+ },
+ {
+  "city": "Antibes",
+  "station": "Antibes",
+  "country": "FR",
+  "lat": 43.58568,
+  "lon": 7.11946,
+  "popular": false
+ },
+ {
+  "city": "Nîmes",
+  "station": "Nîmes",
+  "country": "FR",
+  "lat": 43.83231,
+  "lon": 4.36587,
+  "popular": false
+ },
+ {
+  "city": "Montpellier",
+  "station": "Montpellier",
+  "country": "FR",
+  "lat": 43.60453,
+  "lon": 3.8808,
+  "popular": false
+ },
+ {
+  "city": "Bordeaux",
+  "station": "Bordeaux Saint-Jean",
+  "country": "FR",
+  "lat": 44.82648,
+  "lon": -0.55592,
+  "popular": false
+ },
+ {
+  "city": "Tolosa",
+  "station": "Toulouse Matabiau",
+  "country": "FR",
+  "lat": 43.6114,
+  "lon": 1.45394,
+  "popular": false
+ },
+ {
+  "city": "Strasburgo",
+  "station": "Strasbourg",
+  "country": "FR",
+  "lat": 48.56321,
+  "lon": 7.69433,
+  "popular": false
+ },
+ {
+  "city": "Annecy",
+  "station": "Annecy",
+  "country": "FR",
+  "lat": 45.90212,
+  "lon": 6.12163,
+  "popular": false
+ },
+ {
+  "city": "Chambéry",
+  "station": "Chambéry",
+  "country": "FR",
+  "lat": 45.57149,
+  "lon": 5.91975,
+  "popular": false
+ },
+ {
+  "city": "Grenoble",
+  "station": "Grenoble",
+  "country": "FR",
+  "lat": 45.19119,
+  "lon": 5.71417,
+  "popular": false
+ },
+ {
+  "city": "Monaco di Baviera",
+  "station": "München Hauptbahnhof",
+  "country": "DE",
+  "lat": 48.13988,
+  "lon": 11.55749,
+  "popular": true
+ },
+ {
+  "city": "Stoccarda",
+  "station": "Stuttgart Hauptbahnhof",
+  "country": "DE",
+  "lat": 48.78475,
+  "lon": 9.18322,
+  "popular": true
+ },
+ {
+  "city": "Francoforte",
+  "station": "Frankfurt Hauptbahnhof",
+  "country": "DE",
+  "lat": 50.10629,
+  "lon": 8.66196,
+  "popular": true
+ },
+ {
+  "city": "Berlino",
+  "station": "Berlin Hauptbahnhof",
+  "country": "DE",
+  "lat": 52.52498,
+  "lon": 13.36911,
+  "popular": true
+ },
+ {
+  "city": "Colonia",
+  "station": "Köln Hauptbahnhof",
+  "country": "DE",
+  "lat": 50.94313,
+  "lon": 6.95809,
+  "popular": true
+ },
+ {
+  "city": "Amburgo",
+  "station": "Hamburg Hauptbahnhof",
+  "country": "DE",
+  "lat": 53.55248,
+  "lon": 10.00809,
+  "popular": false
+ },
+ {
+  "city": "Dortmund",
+  "station": "Dortmund Hauptbahnhof",
+  "country": "DE",
+  "lat": 51.51789,
+  "lon": 7.45872,
+  "popular": false
+ },
+ {
+  "city": "Essen",
+  "station": "Essen Hauptbahnhof",
+  "country": "DE",
+  "lat": 51.45135,
+  "lon": 7.01479,
+  "popular": false
+ },
+ {
+  "city": "Düsseldorf",
+  "station": "Düsseldorf Hauptbahnhof",
+  "country": "DE",
+  "lat": 51.2196,
+  "lon": 6.79487,
+  "popular": false
+ },
+ {
+  "city": "Vienna",
+  "station": "Wien Hauptbahnhof",
+  "country": "AT",
+  "lat": 48.18519,
+  "lon": 16.37641,
+  "popular": true
+ },
+ {
+  "city": "Innsbruck",
+  "station": "Innsbruck Hauptbahnhof",
+  "country": "AT",
+  "lat": 47.26407,
+  "lon": 11.39819,
+  "popular": true
+ },
+ {
+  "city": "Salisburgo",
+  "station": "Salzburg Hauptbahnhof",
+  "country": "AT",
+  "lat": 47.81306,
+  "lon": 13.04513,
+  "popular": true
+ },
+ {
+  "city": "Graz",
+  "station": "Graz Hauptbahnhof",
+  "country": "AT",
+  "lat": 47.07248,
+  "lon": 15.41751,
+  "popular": false
+ },
+ {
+  "city": "Linz",
+  "station": "Linz Hauptbahnhof",
+  "country": "AT",
+  "lat": 48.29068,
+  "lon": 14.29117,
+  "popular": false
+ },
+ {
+  "city": "Klagenfurt",
+  "station": "Klagenfurt Hauptbahnhof",
+  "country": "AT",
+  "lat": 46.62175,
+  "lon": 14.32182,
+  "popular": false
+ },
+ {
+  "city": "Lubiana",
+  "station": "Ljubljana",
+  "country": "SI",
+  "lat": 46.05869,
+  "lon": 14.51294,
+  "popular": true
+ },
+ {
+  "city": "Maribor",
+  "station": "Maribor",
+  "country": "SI",
+  "lat": 46.55175,
+  "lon": 15.64543,
+  "popular": false
+ },
+ {
+  "city": "Zagabria",
+  "station": "Zagreb Glavna",
+  "country": "HR",
+  "lat": 45.8044,
+  "lon": 15.97906,
+  "popular": true
+ },
+ {
+  "city": "Spalato",
+  "station": "Split",
+  "country": "HR",
+  "lat": 43.50473,
+  "lon": 16.44296,
+  "popular": false
+ },
+ {
+  "city": "Rijeka",
+  "station": "Rijeka",
+  "country": "HR",
+  "lat": 45.33009,
+  "lon": 14.43026,
+  "popular": false
+ },
+ {
+  "city": "Barcellona",
+  "station": "Barcelona Sants",
+  "country": "ES",
+  "lat": 41.37891,
+  "lon": 2.14037,
+  "popular": true
+ },
+ {
+  "city": "Madrid",
+  "station": "Madrid Atocha",
+  "country": "ES",
+  "lat": 40.40639,
+  "lon": -3.69083,
+  "popular": true
+ },
+ {
+  "city": "Valencia",
+  "station": "Valencia Joaquín Sorolla",
+  "country": "ES",
+  "lat": 39.45917,
+  "lon": -0.38306,
+  "popular": false
+ },
+ {
+  "city": "Siviglia",
+  "station": "Sevilla Santa Justa",
+  "country": "ES",
+  "lat": 37.39194,
+  "lon": -5.97528,
+  "popular": false
+ },
+ {
+  "city": "Malaga",
+  "station": "Málaga",
+  "country": "ES",
+  "lat": 36.71195,
+  "lon": -4.43194,
+  "popular": false
+ },
+ {
+  "city": "Bruxelles",
+  "station": "Bruxelles Midi",
+  "country": "BE",
+  "lat": 50.83578,
+  "lon": 4.33605,
+  "popular": true
+ },
+ {
+  "city": "Amsterdam",
+  "station": "Amsterdam Centraal",
+  "country": "NL",
+  "lat": 52.37919,
+  "lon": 4.89943,
+  "popular": true
+ },
+ {
+  "city": "Rotterdam",
+  "station": "Rotterdam Centraal",
+  "country": "NL",
+  "lat": 51.92485,
+  "lon": 4.46931,
+  "popular": false
+ },
+ {
+  "city": "Utrecht",
+  "station": "Utrecht Centraal",
+  "country": "NL",
+  "lat": 52.0894,
+  "lon": 5.10986,
+  "popular": false
+ },
+ {
+  "city": "Londra",
+  "station": "London St Pancras",
+  "country": "GB",
+  "lat": 51.53142,
+  "lon": -0.12613,
+  "popular": true
+ },
+ {
+  "city": "Praga",
+  "station": "Praha Hlavní Nádraží",
+  "country": "CZ",
+  "lat": 50.08348,
+  "lon": 14.43588,
+  "popular": true
+ },
+ {
+  "city": "Brno",
+  "station": "Brno Hlavní Nádraží",
+  "country": "CZ",
+  "lat": 49.19037,
+  "lon": 16.61234,
+  "popular": false
+ },
+ {
+  "city": "Budapest",
+  "station": "Budapest Keleti",
+  "country": "HU",
+  "lat": 47.50042,
+  "lon": 19.08462,
+  "popular": true
+ },
+ {
+  "city": "Debrecen",
+  "station": "Debrecen",
+  "country": "HU",
+  "lat": 47.51994,
+  "lon": 21.62966,
+  "popular": false
+ },
+ {
+  "city": "Copenaghen",
+  "station": "København H",
+  "country": "DK",
+  "lat": 55.67272,
+  "lon": 12.56462,
+  "popular": true
+ },
+ {
+  "city": "Aarhus",
+  "station": "Aarhus",
+  "country": "DK",
+  "lat": 56.15044,
+  "lon": 10.20476,
+  "popular": false
+ },
+ {
+  "city": "Stoccolma",
+  "station": "Stockholm Central",
+  "country": "SE",
+  "lat": 59.33014,
+  "lon": 18.05815,
+  "popular": true
+ },
+ {
+  "city": "Göteborg",
+  "station": "Göteborg Centralstation",
+  "country": "SE",
+  "lat": 57.7089,
+  "lon": 11.97348,
+  "popular": false
+ },
+ {
+  "city": "Varsavia",
+  "station": "Warszawa Centralna",
+  "country": "PL",
+  "lat": 52.22884,
+  "lon": 21.00328,
+  "popular": true
+ },
+ {
+  "city": "Cracovia",
+  "station": "Kraków Główny",
+  "country": "PL",
+  "lat": 50.06862,
+  "lon": 19.9478,
+  "popular": true
+ },
+ {
+  "city": "Wrocław",
+  "station": "Wrocław Główny",
+  "country": "PL",
+  "lat": 51.09792,
+  "lon": 17.03743,
+  "popular": false
+ },
+ {
+  "city": "Gdańsk",
+  "station": "Gdańsk Główny",
+  "country": "PL",
+  "lat": 54.35644,
+  "lon": 18.64413,
+  "popular": false
+ },
+ {
+  "city": "Bratislava",
+  "station": "Bratislava Hlavná",
+  "country": "SK",
+  "lat": 48.15876,
+  "lon": 17.10595,
+  "popular": false
+ }
+]
