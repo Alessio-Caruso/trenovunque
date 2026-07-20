@@ -4,6 +4,7 @@
 //  - Transitous / MOTIS v2 (orari Europa, senza prezzi) come fallback
 import { STATIONS } from "./stations.ts";
 import { searchTrenitalia } from "./trenitalia.ts";
+import { searchItalo } from "./italo.ts";
 import { searchTransitous } from "./db.ts";
 
 export interface Solution {
@@ -101,20 +102,50 @@ Deno.serve(async (req: Request) => {
 
     const fromRef = toRef(from, fromCountry);
     const toRef2 = toRef(to, toCountry);
+    const domestic = fromCountry === "IT" && toCountry === "IT";
 
-    // Trenitalia prima (ha i prezzi), Transitous come fallback orari.
     let result: JourneyResult | null = null;
     let lastError = "nessun provider disponibile";
-    for (const provider of [searchTrenitalia, searchTransitous]) {
-      try {
-        const r = await provider(fromRef, toRef2, date);
-        if (r.solutions.length > 0) {
-          result = r;
-          break;
+
+    if (domestic) {
+      // Tratte italiane: Trenitalia + Italo in parallelo, soluzioni unite.
+      const [tre, ita] = await Promise.allSettled([
+        searchTrenitalia(fromRef, toRef2, date),
+        searchItalo(fromRef, toRef2, date),
+      ]);
+      const merged: Solution[] = [];
+      const labels: string[] = [];
+      for (const [name, r] of [["trenitalia", tre], ["italo", ita]] as const) {
+        if (r.status === "fulfilled") {
+          if (r.value.solutions.length) labels.push(name);
+          merged.push(...r.value.solutions);
+        } else {
+          lastError = r.reason instanceof Error ? r.reason.message : String(r.reason);
         }
-        result = result ?? r; // risultato vuoto ma valido
-      } catch (e) {
-        lastError = e instanceof Error ? e.message : String(e);
+      }
+      if (merged.length) {
+        merged.sort((a, b) => a.departure.localeCompare(b.departure));
+        result = {
+          ok: true,
+          provider: labels.join("+") || "trenitalia",
+          solutions: merged.slice(0, 12),
+        };
+      }
+    }
+
+    // Fallback (o tratte estere): Trenitalia poi Transitous per gli orari.
+    if (!result) {
+      for (const provider of [searchTrenitalia, searchTransitous]) {
+        try {
+          const r = await provider(fromRef, toRef2, date);
+          if (r.solutions.length > 0) {
+            result = r;
+            break;
+          }
+          result = result ?? r; // risultato vuoto ma valido
+        } catch (e) {
+          lastError = e instanceof Error ? e.message : String(e);
+        }
       }
     }
 
