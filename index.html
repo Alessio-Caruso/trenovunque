@@ -321,6 +321,18 @@
   .card-hint { padding: 0 16px 14px; margin-top: auto; }
   .card-hint span { font-size: .76rem; color: var(--brand); font-weight: 650; display: inline-flex; align-items: center; gap: 4px; }
   .card.open .card-hint .chev { transform: rotate(180deg); }
+
+  /* link/pulsante di prenotazione */
+  a.book { color: var(--brand); font-weight: 700; text-decoration: none; white-space: nowrap; }
+  a.book:hover { text-decoration: underline; }
+  .btn-book {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: linear-gradient(135deg, var(--brand), var(--brand-700));
+    color: #fff; font-weight: 700; font-size: .82rem;
+    padding: 7px 14px; border-radius: var(--radius-pill);
+    text-decoration: none; margin-left: auto; white-space: nowrap;
+  }
+  .btn-book:hover { box-shadow: var(--shadow-md); }
   .chev { transition: transform .25s; display: inline-block; }
 
   .leg-title { font-size: .74rem; font-weight: 800; text-transform: uppercase; letter-spacing: .05em; color: var(--brand); margin: 8px 0 6px; display: flex; align-items: center; gap: 6px; }
@@ -498,7 +510,7 @@
      Path API relativi con './' per funzionare anche dietro prefisso.
   ===================================================================== */
 
-  const API_BASE = "https://vufeisvmgnnragccpgnn.supabase.co/functions/v1/trenovunque";
+  const API_BASE = "https://waiygqjpxccyjmsgfqjs.supabase.co/functions/v1/trenovunque";
   const API_STATIONS = `${API_BASE}/api/stations`;
   const API_JOURNEYS = `${API_BASE}/api/journeys`;
 
@@ -1152,12 +1164,15 @@
       ? `<span class="price tnum">${fmtPrice(s.priceEur)}</span>`
       : `<span class="price na">n/d</span>`;
     const trains = Array.isArray(s.trains) && s.trains.length ? escapeHtml(s.trains.join(", ")) : "";
+    const book = s.bookingUrl
+      ? `<a class="book" href="${escapeHtml(s.bookingUrl)}" target="_blank" rel="noopener noreferrer">Prenota ↗</a>`
+      : "";
     return `
       <div class="sol">
         <span class="times tnum">${fmtTime(s.departure)}<span class="arr">→</span>${fmtTime(s.arrival)}</span>
         ${priceCell}
         <span class="info">${fmtDur(s.durationMin)} · ${fmtChanges(s.changes || 0)}</span>
-        <span class="trains">${trains}</span>
+        <span class="trains">${trains}${book ? ` · ${book}` : ""}</span>
       </div>`;
   }
 
@@ -1175,6 +1190,9 @@
 
     const goRows = d.go.slice(0, 5).map(solRowHtml).join("");
     const backRows = d.back.slice(0, 5).map(solRowHtml).join("");
+    const bookBtn = d.bestGo.bookingUrl
+      ? `<a class="btn-book" href="${escapeHtml(d.bestGo.bookingUrl)}" target="_blank" rel="noopener noreferrer">Prenota ↗</a>`
+      : "";
 
     el.innerHTML = `
       <div class="card-head">
@@ -1188,6 +1206,7 @@
       <div class="card-meta">
         <span class="pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>${fmtDur(d.bestGo.durationMin)}</span>
         ${directPill}
+        ${bookBtn}
       </div>
       <div class="card-hint"><span>Vedi orari <span class="chev">▾</span></span></div>
       <div class="card-expand">
@@ -1201,8 +1220,13 @@
       const open = el.classList.toggle("open");
       el.setAttribute("aria-expanded", open ? "true" : "false");
     };
-    el.addEventListener("click", toggle);
+    el.addEventListener("click", (e) => {
+      // i click sui link "Prenota" aprono l'operatore, non espandono la card
+      if (e.target.closest("a")) return;
+      toggle();
+    });
     el.addEventListener("keydown", (e) => {
+      if (e.target.closest("a")) return;
       if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(); }
     });
     return el;

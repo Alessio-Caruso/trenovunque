@@ -82,6 +82,7 @@ function romeOffset(date: string): string {
 }
 
 interface ItaloFare {
+  availableCount?: number;
   paxFares?: { fullPaxFarePrice?: number }[];
 }
 interface ItaloSegment {
@@ -158,6 +159,11 @@ export async function searchItalo(
 
   const tsList: ItaloTS[] = data?.trips?.[0]?.travelSolutions ?? [];
   const off = romeOffset(date);
+  // Pre-compila la ricerca sul sito Italo (best-effort: la pagina accetta i
+  // parametri; se ignorati, apre comunque la ricerca pronta).
+  const bookingUrl =
+    `${ORIGIN}/it/ricerca-biglietto?departureStation=${fromCode}` +
+    `&arrivalStation=${toCode}&departureDate=${date}&adults=1`;
 
   const solutions: Solution[] = tsList
     .map((ts) => {
@@ -166,9 +172,13 @@ export async function searchItalo(
       if (!segs.length) return null;
       const first = segs[0], last = segs[segs.length - 1];
       if (!first.std || !last.sta) return null;
+      // solo tariffe con posti realmente disponibili (availableCount > 0)
       const prices: number[] = [];
       for (const seg of segs) {
         for (const f of seg.fares ?? []) {
+          if (!(typeof f.availableCount === "number" && f.availableCount > 0)) {
+            continue;
+          }
           for (const pf of f.paxFares ?? []) {
             if (typeof pf.fullPaxFarePrice === "number" && pf.fullPaxFarePrice > 0) {
               prices.push(pf.fullPaxFarePrice);
@@ -176,6 +186,7 @@ export async function searchItalo(
           }
         }
       }
+      if (!prices.length) return null; // soluzione esaurita: scarta
       const dep = new Date(`${first.std}${off}`);
       const arr = new Date(`${last.sta}${off}`);
       return {
@@ -183,8 +194,9 @@ export async function searchItalo(
         arrival: `${last.sta}${off}`,
         durationMin: Math.round((arr.getTime() - dep.getTime()) / 60000),
         changes: ts.numberOfChanges ?? Math.max(0, segs.length - 1),
-        priceEur: prices.length ? Math.min(...prices) : null,
+        priceEur: Math.min(...prices),
         trains: segs.map((s) => `${s.carrierCode ?? "italo"} ${s.trainNumber ?? ""}`.trim()),
+        bookingUrl,
       } as Solution;
     })
     .filter((s): s is Solution => s !== null && s.departure.startsWith(date))

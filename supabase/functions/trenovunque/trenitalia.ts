@@ -107,24 +107,32 @@ export async function searchTrenitalia(
   if (!res.ok) throw new Error(`lefrecce solutions ${res.status}`);
   const data = (await res.json()) as { solutions?: LfSolution[] };
 
+  // Sito di acquisto: la ricerca lefrecce è una SPA senza deep-link con
+  // parametri, quindi si apre la pagina di ricerca dell'operatore.
+  const bookingUrl = "https://www.lefrecce.it/Channels.Website.WEB/";
+
   const solutions: Solution[] = (data.solutions ?? [])
     .map((s) => s.solution)
     .filter((s) => s?.departureTime && s?.arrivalTime)
     // solo soluzioni che partono nella data richiesta
     .filter((s) => s.departureTime.startsWith(date))
+    // solo treni realmente acquistabili con prezzo (scarta INHIBITED/esauriti)
+    .filter((s) =>
+      s.status === "SALEABLE" && typeof s.price?.amount === "number"
+    )
     .map((s) => {
       const dep = new Date(s.departureTime).getTime();
       const arr = new Date(s.arrivalTime).getTime();
-      const price = typeof s.price?.amount === "number" ? s.price.amount : null;
       return {
         departure: s.departureTime,
         arrival: s.arrivalTime,
         durationMin: Math.round((arr - dep) / 60000),
         changes: Math.max(0, (s.nodes?.length ?? 1) - 1),
-        priceEur: price,
+        priceEur: s.price!.amount!,
         trains: (s.trains ?? []).map((t) =>
           [t.acronym ?? t.trainCategory, t.name].filter(Boolean).join(" ")
         ),
+        bookingUrl,
       };
     })
     .slice(0, 8);

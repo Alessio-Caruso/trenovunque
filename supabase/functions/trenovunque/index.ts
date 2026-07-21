@@ -14,6 +14,7 @@ export interface Solution {
   changes: number;
   priceEur: number | null;
   trains: string[];
+  bookingUrl?: string | null; // dove acquistare (sito dell'operatore)
 }
 
 export interface JourneyResult {
