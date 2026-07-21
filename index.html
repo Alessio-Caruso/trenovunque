@@ -325,14 +325,20 @@
   /* link/pulsante di prenotazione */
   a.book { color: var(--brand); font-weight: 700; text-decoration: none; white-space: nowrap; }
   a.book:hover { text-decoration: underline; }
+  .card-actions { display: flex; gap: 8px; flex-wrap: wrap; padding: 0 16px 14px; }
   .btn-book {
     display: inline-flex; align-items: center; gap: 6px;
     background: linear-gradient(135deg, var(--brand), var(--brand-700));
     color: #fff; font-weight: 700; font-size: .82rem;
-    padding: 7px 14px; border-radius: var(--radius-pill);
-    text-decoration: none; margin-left: auto; white-space: nowrap;
+    padding: 8px 14px; border-radius: var(--radius-pill);
+    text-decoration: none; white-space: nowrap;
   }
   .btn-book:hover { box-shadow: var(--shadow-md); }
+  .btn-book.alt {
+    background: var(--surface); color: var(--brand);
+    border: 1.5px solid var(--border-strong);
+  }
+  .btn-book.alt:hover { background: var(--surface-2); box-shadow: none; }
   .chev { transition: transform .25s; display: inline-block; }
 
   .leg-title { font-size: .74rem; font-weight: 800; text-transform: uppercase; letter-spacing: .05em; color: var(--brand); margin: 8px 0 6px; display: flex; align-items: center; gap: 6px; }
@@ -1149,6 +1155,27 @@
     return el;
   }
 
+  // operatore reale della soluzione (per etichetta e link diretto)
+  function operatorOf(sol) {
+    const t = (sol && sol.trains && sol.trains[0]) || "";
+    return /^VF\b/.test(t) ? "Italo" : "Trenitalia";
+  }
+
+  // link Trainline con andata E ritorno già compilati (usa gli id `tl`)
+  function trainlineRT(from, to) {
+    if (!from || !to || !from.tl || !to.tl) return null;
+    const loc = (n) => encodeURIComponent(`urn:trainline:generic:loc:${n}`);
+    let u = `https://www.thetrainline.com/book/results?origin=${loc(from.tl)}`
+      + `&destination=${loc(to.tl)}&outwardDate=${dateGo.value}T08:00:00`
+      + `&outwardDateType=departAfter`;
+    if (dateBack.value && dateBack.value >= dateGo.value) {
+      u += `&inwardDate=${dateBack.value}T17:00:00&inwardDateType=departAfter&journeySearchType=return`;
+    } else {
+      u += `&journeySearchType=single`;
+    }
+    return u + `&passengers%5B%5D=1990-01-01`;
+  }
+
   function priceHtml(d) {
     if (d.priceRT != null) {
       return `<span class="price-big ok tnum">${fmtPrice(d.priceRT)}</span><span class="price-label">andata e ritorno</span>`;
@@ -1190,8 +1217,13 @@
 
     const goRows = d.go.slice(0, 5).map(solRowHtml).join("");
     const backRows = d.back.slice(0, 5).map(solRowHtml).join("");
-    const bookBtn = d.bestGo.bookingUrl
-      ? `<a class="btn-book" href="${escapeHtml(d.bestGo.bookingUrl)}" target="_blank" rel="noopener noreferrer">Prenota ↗</a>`
+    // due link: operatore diretto (prezzo reale) + Trainline andata/ritorno
+    const opBtn = d.bestGo.bookingUrl
+      ? `<a class="btn-book" href="${escapeHtml(d.bestGo.bookingUrl)}" target="_blank" rel="noopener noreferrer">${operatorOf(d.bestGo)} ↗</a>`
+      : "";
+    const tlHref = trainlineRT(selectedFrom, s);
+    const tlBtn = tlHref
+      ? `<a class="btn-book alt" href="${escapeHtml(tlHref)}" target="_blank" rel="noopener noreferrer">Trainline A/R ↗</a>`
       : "";
 
     el.innerHTML = `
@@ -1206,8 +1238,8 @@
       <div class="card-meta">
         <span class="pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>${fmtDur(d.bestGo.durationMin)}</span>
         ${directPill}
-        ${bookBtn}
       </div>
+      <div class="card-actions">${opBtn}${tlBtn}</div>
       <div class="card-hint"><span>Vedi orari <span class="chev">▾</span></span></div>
       <div class="card-expand">
         <div class="leg-title">🚆 Andata · ${dateGo.value ? shortDate(dateGo.value) : ""}</div>

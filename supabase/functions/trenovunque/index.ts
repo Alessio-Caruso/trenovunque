@@ -33,6 +33,11 @@ export interface StationRef {
 
 const FRONTEND_URL = "https://alessio-caruso.github.io/trenovunque/";
 
+// ID stazione Trainline (rivenditore che vende Trenitalia + Italo + estero).
+// Serve per costruire un link ai risultati GIÀ compilati (partenza/arrivo/data):
+// i siti ufficiali Trenitalia/Italo sono SPA senza deep-link parametrico.
+const TL_URN: Record<string, string> = {"Roma Termini":"8544","Milano Centrale":"8490","Torino Porta Nuova":"8567","Venezia Santa Lucia":"8574","Firenze Santa Maria Novella":"8434","Bologna Centrale":"10456","Napoli Centrale":"8497","Bari Centrale":"19401","Palermo Centrale":"19593","Catania Centrale":"19200","Verona Porta Nuova":"8581","Genova Piazza Principe":"8453","Pisa Centrale":"20113","Lecce":"66434","Reggio Calabria Centrale":"8539","Trieste Centrale":"20612","Padova":"74736","La Spezia Centrale":"20898","Salerno":"20259","Foggia":"20074","Pescara Centrale":"19583","Ancona Centrale":"19145","Rimini":"8553","Bolzano":"17484","Trento":"18829","Brescia":"22192","Bergamo":"19334","Como San Giovanni":"18821","Varese":"22091","Novara":"10462","Alessandria":"19284","Parma":"8514","Modena":"8493","Reggio Emilia AV Mediopadana":"22582","Ferrara":"19607","Ravenna":"20053","Perugia":"19581","Terni":"20460","Caserta":"20159","Benevento":"19421","Taranto":"34302","Brindisi":"20183","Cosenza":"19252","Lamezia Terme Centrale":"19814","Messina Centrale":"19880","Siracusa":"20532","Cagliari":"19387","Sassari":"20345","Udine":"20642","Treviso":"20610","Vicenza":"10459","Rovigo":"20518","Mantova":"19851","Cremona":"20764","Piacenza":"8529","Pavia":"19483","Asti":"20216","Cuneo":"20164","Savona":"20326","Imperia Oneglia":"19932","Ventimiglia":"8578","Livorno Centrale":"19457","Grosseto":"20850","Siena":"20640","Arezzo":"19176","Viterbo":"20442","Latina":"19813","Frosinone":"19508","Potenza Città":"21434","Civitavecchia":"20745","Isernia":"19631","Teramo":"20788","Chieti":"19279","Crotone":"20228","Catanzaro Lido":"19229","Vibo Valentia Pizzo":"20957","Paola":"20065","Rossano":"19762","Gioiosa Ionica":"20093","Melito di Porto Salvo":"22435","Palmi":"19797","Gioia Tauro":"20092","Alcamo Diramazione":"19261","Castelvetrano":"19318","Gela":"20919","Vittoria":"22125","Modica":"19790","Ragusa":"20727","Comiso":"19185","Noto":"20050","Avola":"20172","Marsala":"19943","Agrigento Centrale":"20702","Termini Imerese":"20789","Bagheria":"20174","Nuoro":"21480","Oristano":"19586","Porto Torres":"19547","Olbia":"67843","Zürich HB":"6245","Genève":"5335","Lausanne":"6247","Bern":"6300","Basel SBB":"5878","Lugano":"6345","Luzern":"39297","St. Gallen":"6352","Paris Gare de Lyon":"4924","Lyon Part-Dieu":"4676","Marseille Saint-Charles":"4791","Nice Ville":"4839","Toulon":"5304","Cannes":"1180","Antibes":"5749","Nîmes":"2825","Montpellier":"4786","Bordeaux Saint-Jean":"828","Toulouse Matabiau":"5311","Strasbourg":"153","Annecy":"4843","Chambéry":"1339","Grenoble":"3358","München Hauptbahnhof":"7480","Stuttgart Hauptbahnhof":"7710","Frankfurt Hauptbahnhof":"7604","Berlin Hauptbahnhof":"7630","Köln Hauptbahnhof":"7561","Hamburg Hauptbahnhof":"7474","Dortmund Hauptbahnhof":"7573","Essen Hauptbahnhof":"7591","Düsseldorf Hauptbahnhof":"7475","Wien Hauptbahnhof":"22644","Innsbruck Hauptbahnhof":"10464","Salzburg Hauptbahnhof":"17458","Graz Hauptbahnhof":"17497","Linz Hauptbahnhof":"17500","Klagenfurt Hauptbahnhof":"17499","Ljubljana":"19094","Maribor":"19096","Zagreb Glavna":"67316","Split":"34270","Rijeka":"28231","Barcelona Sants":"6625","Madrid Atocha":"6667","Valencia Joaquín Sorolla":"24493","Sevilla Santa Justa":"24419","Málaga":"6570","Bruxelles Midi":"5893","Amsterdam Centraal":"5894","Rotterdam Centraal":"8670","Utrecht Centraal":"8673","London St Pancras":"STP1555gb","Praha Hlavní Nádraží":"17509","Brno Hlavní Nádraží":"17503","Budapest Keleti":"10502","Debrecen":"18806","København H":"17515","Aarhus":"17513","Stockholm Central":"19102","Göteborg Centralstation":"39754","Warszawa Centralna":"10493","Kraków Główny":"17584","Wrocław Główny":"19080","Gdańsk Główny":"17518","Bratislava Hlavná":"17495"};
+
 const JSON_HEADERS = {
   "Content-Type": "application/json; charset=utf-8",
   "Access-Control-Allow-Origin": "*",
@@ -82,7 +87,10 @@ Deno.serve(async (req: Request) => {
   }
 
   if (path === "api/stations") {
-    return json({ ok: true, stations: STATIONS });
+    // aggiunge l'id Trainline (tl) così il frontend può costruire il link
+    // di prenotazione andata+ritorno già compilato.
+    const withTl = STATIONS.map((s) => ({ ...s, tl: TL_URN[s.station] ?? null }));
+    return json({ ok: true, stations: withTl });
   }
 
   if (path === "api/journeys") {
@@ -152,6 +160,9 @@ Deno.serve(async (req: Request) => {
 
     if (!result) return json({ ok: false, error: lastError }, 502);
 
+    // bookingUrl resta il link diretto all'operatore (prezzo reale) impostato
+    // dall'adapter; il link Trainline A/R lo costruisce il frontend con
+    // entrambe le date e gli id `tl` delle stazioni.
     const body = JSON.stringify(result);
     cache.set(key, { at: Date.now(), body });
     return new Response(body, { headers: JSON_HEADERS });
